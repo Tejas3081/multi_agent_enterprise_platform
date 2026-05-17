@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multi-Agent AI Platform</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            margin: 40px;
+        }
+
+        #messages {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            background: #f4f4f4;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Enterprise Multi-Agent AI Platform</h1>
+
+    <input
+        type="text"
+        id="messageInput"
+        placeholder="Enter Task"
+        style="width: 400px; padding: 10px;"
+    >
+
+    <button
+        onclick="sendMessage()"
+        style="padding: 10px;"
+    >
+        Execute Workflow
+    </button>
+
+    <div id="messages"></div>
+
+    <script>
+
+        const ws = new WebSocket(
+            "ws://127.0.0.1:8000/ws"
+        );
+
+        ws.onopen = () => {
+            console.log("Connected");
+        };
+
+        ws.onmessage = (event) => {
+
+            const messages =
+                document.getElementById("messages");
+
+            messages.innerHTML += `
+                <div class="message">
+                    ${event.data}
+                </div>
+            `;
+
+            messages.scrollTop =
+                messages.scrollHeight;
+        };
+
+        function sendMessage() {
+
+            const input =
+                document.getElementById(
+                    "messageInput"
+                );
+
+            ws.send(input.value);
+
+            input.value = "";
+        }
+
+    </script>
+
+</body>
+
+</html>
