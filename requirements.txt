@@ -9,6 +9,7 @@
 
 
 fastapi
+pymongo
 uvicorn
 python-dotenv
 groq
